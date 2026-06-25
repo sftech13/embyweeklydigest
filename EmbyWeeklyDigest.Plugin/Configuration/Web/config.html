@@ -1,0 +1,83 @@
+<div is="emby-scroller"
+     class="view flex flex-direction-column scrollFrameY flex-grow"
+     data-horizontal="false"
+     data-forcescrollbar="true"
+     data-centerfocus="true"
+     data-bindheader="true"
+     data-controller="__plugin/embyweeklydigestconfig"
+     data-title="EmbyWeeklyDigest">
+
+  <div class="scrollSlider flex-grow flex-direction-column padded-left padded-left-page padded-right padded-top-page padded-bottom-page">
+
+    <h2 class="sectionTitle" style="margin-bottom:.4em;">Weekly Digest Settings</h2>
+    <p style="color:var(--text-color-secondary,#aaa);margin:0 0 1.5em;">
+      A scheduled task sends a popup listing movies and TV shows added in the last 7 days.
+      Set the day/time it runs from <b>Scheduled Tasks &rarr; EmbyWeeklyDigest &rarr; Send Weekly Digest</b>.
+    </p>
+
+    <div style="margin-bottom:1.2em;">
+      <label style="display:block;margin-bottom:.4em;font-size:.9em;opacity:.8;">Popup Header</label>
+      <input class="txtHeader" type="text" maxlength="80"
+             style="width:100%;box-sizing:border-box;padding:.5em;font-size:1em;" />
+    </div>
+
+    <div style="margin-bottom:1.2em;display:flex;gap:2em;flex-wrap:wrap;">
+      <label style="display:flex;align-items:center;gap:.5em;cursor:pointer;">
+        <input class="chkMovies" type="checkbox" />
+        <span>Include new movies</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:.5em;cursor:pointer;">
+        <input class="chkSeries" type="checkbox" />
+        <span>Include new TV shows</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:.5em;cursor:pointer;">
+        <input class="chkSkipEmpty" type="checkbox" />
+        <span>Skip sending when nothing new</span>
+      </label>
+    </div>
+
+    <div style="margin-bottom:1.5em;">
+      <label style="display:block;margin-bottom:.4em;font-size:.9em;opacity:.8;">Auto-dismiss (seconds) &mdash; 0 = stays until dismissed</label>
+      <input class="txtTimeout" type="number" min="0" max="300"
+             style="width:120px;padding:.5em;font-size:1em;" />
+    </div>
+
+    <button class="btnSave raised button-submit" type="button"
+            style="padding:.6em 1.4em;font-size:1em;cursor:pointer;">
+      Save Settings
+    </button>
+
+    <div class="saveStatus"
+         style="margin-top:1em;padding:.75em 1em;border-radius:4px;display:none;"></div>
+
+    <hr style="margin:2em 0;border:none;border-top:1px solid rgba(255,255,255,0.1);" />
+
+    <h2 class="sectionTitle" style="margin-bottom:.4em;">Send Now</h2>
+    <p style="color:var(--text-color-secondary,#aaa);margin:0 0 1em;">
+      Build and send a digest immediately, for testing.
+    </p>
+
+    <div style="display:flex;align-items:center;gap:1em;flex-wrap:wrap;margin-bottom:1em;">
+      <label style="font-size:.9em;opacity:.8;">Lookback (days)</label>
+      <input class="txtLookback" type="number" value="7" min="1" max="60"
+             style="width:90px;padding:.5em;font-size:1em;" />
+      <button class="btnSendNow raised button-submit" type="button"
+              style="padding:.55em 1.3em;font-size:1em;cursor:pointer;">
+        Send Test Digest
+      </button>
+    </div>
+
+    <div class="sendStatus"
+         style="margin-top:0;padding:.75em 1em;border-radius:4px;display:none;"></div>
+
+    <hr style="margin:2em 0;border:none;border-top:1px solid rgba(255,255,255,0.1);" />
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8em;">
+      <h3 style="margin:0;font-size:1em;opacity:.7;">Digest History</h3>
+      <span class="btnRefreshHistory" style="font-size:.8em;opacity:.45;cursor:pointer;">&#8635; Refresh</span>
+    </div>
+
+    <div class="historyList"></div>
+
+  </div>
+</div>
