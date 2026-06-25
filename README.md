@@ -27,6 +27,19 @@ EmbyWeeklyDigest scans your library for everything added in the last 7 days and 
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/digest-popup.png" alt="Weekly digest popup" width="500" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/config-page.png" alt="Config page" width="420" />
+  <img src="docs/screenshots/test-digest-sent.png" alt="Config page after sending a test digest" width="420" />
+</p>
+
+---
+
 ## Installation
 
 ### Step 1 — Get the DLL
