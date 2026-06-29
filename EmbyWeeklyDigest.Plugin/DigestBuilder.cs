@@ -23,6 +23,7 @@ namespace EmbyWeeklyDigest.Plugin
         {
             var result = new DigestResult();
             var cutoff = DateTimeOffset.UtcNow.AddDays(-days);
+            var minYear = DateTime.UtcNow.Year - 1;
 
             if (includeMovies)
             {
@@ -36,12 +37,16 @@ namespace EmbyWeeklyDigest.Plugin
                 });
 
                 foreach (var item in movies)
+                {
+                    if (EffectiveYear(item) is int y && y < minYear)
+                        continue;
+
                     result.Movies.Add(FormatTitle(item.Name, item.ProductionYear, item.CommunityRating));
+                }
             }
 
             if (includeSeries)
             {
-                var minSeriesYear = DateTime.UtcNow.Year - 5;
                 var series = libraryManager.GetItemList(new InternalItemsQuery
                 {
                     IncludeItemTypes = new[] { "Series" },
@@ -53,7 +58,7 @@ namespace EmbyWeeklyDigest.Plugin
 
                 foreach (var item in series)
                 {
-                    if (item.ProductionYear.HasValue && item.ProductionYear.Value < minSeriesYear)
+                    if (EffectiveYear(item) is int y && y < minYear)
                         continue;
 
                     result.Series.Add(FormatTitle(item.Name, item.ProductionYear, item.CommunityRating));
@@ -63,11 +68,20 @@ namespace EmbyWeeklyDigest.Plugin
             return result;
         }
 
-        private static readonly Regex YearSuffixPattern = new Regex(@"\(\d{4}\)\s*$");
+        private static readonly Regex YearSuffixPattern = new Regex(@"\(\d{4}\)");
+        private static readonly Regex TrailingYearPattern = new Regex(@"\((\d{4})\)\s*$");
+        private static readonly Regex DuplicateYearPattern = new Regex(@"(\(\d{4}\))\s*\1");
+
+        private static int? EffectiveYear(BaseItem item)
+        {
+            if (item.ProductionYear.HasValue) return item.ProductionYear.Value;
+            var match = TrailingYearPattern.Match(item.Name ?? string.Empty);
+            return match.Success ? int.Parse(match.Groups[1].Value) : (int?)null;
+        }
 
         private static string FormatTitle(string rawName, int? year, float? communityRating)
         {
-            var name = System.Net.WebUtility.HtmlDecode(rawName);
+            var name = DuplicateYearPattern.Replace(System.Net.WebUtility.HtmlDecode(rawName), "$1");
             var titleWithYear = year.HasValue && year.Value > 0 && !YearSuffixPattern.IsMatch(name)
                 ? $"{name} ({year.Value})"
                 : name;

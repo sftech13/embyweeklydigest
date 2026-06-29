@@ -4,6 +4,12 @@ All notable changes to EmbyWeeklyDigest are listed here, newest first.
 
 ---
 
+## v1.2.0
+
+- The 5-year TV-only cutoff is now a current-year-and-previous-year window applied to both movies and TV shows, to keep the popup short enough to read on clients that can't scroll it (some TVs/apps)
+- Fixed items with no `ProductionYear` metadata slipping through the year filter regardless of age — the year is now parsed from the title as a fallback when the field is missing
+- Fixed a duplicated year still appearing when the underlying title metadata itself already contained the year twice (e.g. `Title (2026) (2026)`)
+
 ## v1.1.0
 
 - Title formatting fixes: no more duplicated year (`Title (2011) (2011)` → `Title (2011)`), and HTML entities in stored metadata (e.g. `&amp;`) are now decoded before display
